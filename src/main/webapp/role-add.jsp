@@ -93,7 +93,7 @@
                                 aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="user-table.html" class="waves-effect"><i class="fa fa-user fa-fw"
+                        <a href="user" class="waves-effect"><i class="fa fa-user fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Thành viên</span></a>
                     </li>
                     <li>
@@ -135,6 +135,10 @@
                     <div class="col-md-8 col-xs-12">
                         <div class="white-box">
                             <form class="form-horizontal form-material" action="<c:url value='${action }'/>" method="post">
+                                <div class="form-group" style="display: ${isShow}">
+                                    <input type="text" value="${ltv.id}" name="id" placeholder="ID" 
+                                            class="form-control form-control-line" readonly="readonly"/>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Tên quyền</label>
                                     <div class="col-md-12">
@@ -150,7 +154,7 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-success">Add Role</button>
+                                        <button type="submit" class="btn btn-success">${btnAction}</button>
                                         <a href="role" class="btn btn-primary">Quay lại</a>
                                     </div>
                                 </div>

@@ -100,12 +100,12 @@
                                 aria-hidden="true"></i><span class="hide-menu">Quyền</span></a>
                     </li>
                     <li>
-                        <a href="groupwork.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="project" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Dự án</span></a>
                     </li>
                     <li>
                         <a href="task.html" class="waves-effect"><i class="fa fa-table fa-fw"
-                                aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
+                                aria-hidden="true"></i><span class="hide-menu">Dự án</span></a>
                     </li>
                     <li>
                         <a href="blank.html" class="waves-effect"><i class="fa fa-columns fa-fw"
@@ -124,7 +124,7 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Thêm mới thành viên</h4>
+                        <h4 class="page-title">Thêm mới dự án</h4>
                     </div>
                 </div>
                 <!-- /.row -->
@@ -133,70 +133,76 @@
                     <div class="col-md-2 col-12"></div>
                     <div class="col-md-8 col-xs-12">
                         <div class="white-box">
-                            <form class="form-horizontal form-material" action="<c:url value='${action}'/>" method="post">
+                            <form class="form-horizontal form-material" action="<c:url value='${action }'/>" method="post">
                                 <div class="form-group" style="display: ${isShow}">
-                                    <label class="col-md-12">ID</label>
+                                    <input type="text" value="${da.id}" name="id" placeholder="ID" 
+                                            class="form-control form-control-line" readonly="readonly"/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Tên dự án</label>
                                     <div class="col-md-12">
-                                        <input type="text" value='${nd.id }' name="id"
+                                        <input type="text" value="${da.tenduan}" name="ten" placeholder="Tên công việc"
                                             class="form-control form-control-line"> </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12">Full Name</label>
+                                    <label class="col-md-12">Mô tả</label>
                                     <div class="col-md-12">
-                                        <input type="text" value='${nd.fullname }' name="fullname" placeholder="Johnathan Doe"
+                                        <input type="text" value="${da.mota}" name="mota" placeholder="Mô tả công việc"
                                             class="form-control form-control-line"> </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-email" class="col-md-12">Email</label>
+                                    <label class="col-md-12">Ngày bắt đầu</label>
                                     <div class="col-md-12">
-                                        <input type="email" value='${nd.email }' placeholder="johnathan@admin.com"
-                                            class="form-control form-control-line" name="email"
-                                            id="example-email"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Password</label>
-                                    <div class="col-md-12">
-                                        <input type="password" value='${nd.matKhau }' name="matkhau" value="password" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Address</label>
-                                    <div class="col-md-12">
-                                        <input type="text" value='${nd.diaChi }' name="diachi" placeholder="Number address and street names"
+                                        <input type="text" value="${da.ngaybatdau}" name="ngaybd" placeholder="yyyy-MM-dd"
                                             class="form-control form-control-line"> </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-12">Phone No</label>
+                                    <label class="col-md-12">Ngày kết thúc</label>
                                     <div class="col-md-12">
-                                        <input type="text" value='${nd.soDienThoai }' name="sodienthoai" placeholder="123 456 7890"
+                                        <input type="text" value="${da.ngayketthuc}" name="ngaykt" placeholder="yyyy-MM-dd"
                                             class="form-control form-control-line"> </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-sm-12">Select Role</label>
+                                    <label class="col-sm-12">Select Lead</label>
                                     <div class="col-sm-12">
-                                        <select name="id_loaiThanhVien" class="form-control form-control-line">
-                                            <c:forEach var="item" items="${listRole}">
-                                            
-                                            	<c:if test="${nd.loaiThanhVien.id ==item.id }">
-                                            		<option value=${item.id } selected="selected">${item.ten}</option>
+                                        <select name="maquanly" class="form-control form-control-line">
+                                            <c:forEach var="item" items="${listLead}">
+                                            	<c:if test="${da.quanly.id ==item.id }">
+                                            		<option value=${item.id } selected="selected">${item.fullname}</option>
                                             	</c:if>
-                                            	<c:if test="${nd.loaiThanhVien.id !=item.id }">
-                                            		<option value=${item.id }>${item.ten}</option>
+                                            	<c:if test="${da.quanly.id !=item.id }">
+                                            		<option value=${item.id }>${item.fullname}</option>
                                             	</c:if>
+                                            	
+                                            		
                                             </c:forEach>
                                         </select>
                                     </div>
                                 </div>
+                                <%-- <div class="form-group">
+                                    <label class="col-sm-12">Select status</label>
+                                    <div class="col-sm-12">
+                                        <select name="matrangthai" class="form-control form-control-line">
+                                            <c:forEach var="item" items="${listLead}">
+                                            	<c:if test="${da.quanly.id ==item.id }">
+                                            		<option value=${item.id } selected="selected">${item.fullname}</option>
+                                            	</c:if>
+                                            	<c:if test="${da.quanly.id !=item.id }">
+                                            		<option value=${item.id }>${item.fullname}</option>
+                                            	</c:if>
+                                            	
+                                            		
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div> --%>
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-success">${btnAction}</button>
-                                        <a href="user" class="btn btn-primary">Quay lại</a>
+                                        <button type="submit" class="btn btn-success">${btnAction }</button>
+                                        <a href="project" class="btn btn-primary">Quay lại</a>
                                     </div>
                                 </div>
                             </form>
-                            <c:if test="${isSuccess == true}">
-                            	<h4>Thêm thành công</h4>
-                            </c:if>
                         </div>
                     </div>
                     <div class="col-md-2 col-12"></div>

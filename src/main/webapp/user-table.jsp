@@ -130,7 +130,7 @@
                         <h4 class="page-title">Danh sách thành viên</h4>
                     </div>
                     <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 text-right">
-                        <a href="user-add.html" class="btn btn-sm btn-success">Thêm mới</a>
+                        <a href="user-add" class="btn btn-sm btn-success">Thêm mới</a>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>
@@ -161,7 +161,7 @@
                                             <td>${item.soDienThoai }</td>
                                             <td>${item.loaiThanhVien.ten}</td>
                                             <td>
-                                                <a href="#" class="btn btn-sm btn-primary">Sửa</a>
+                                                <a href="user-edit?id=${item.id }" class="btn btn-sm btn-primary">Sửa</a>
                                                 <a href="#"  id-user=${item.id } class="btn btn-sm btn-danger btn-xoa">Xóa</a>
                                                 <a href="user-details.html" class="btn btn-sm btn-info">Xem</a>
                                             </td>

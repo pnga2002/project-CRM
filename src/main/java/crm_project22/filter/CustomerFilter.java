@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-@WebFilter(filterName="customerFilter",urlPatterns = {"/role-add"})
+@WebFilter(filterName="customerFilter",urlPatterns = {"/role-add","/role-edit"})
 public class CustomerFilter implements Filter{
 
 	@Override
@@ -25,6 +25,15 @@ public class CustomerFilter implements Filter{
 		String contextPath = servletRequest.getContextPath();
 		switch (path) {
 		case "/role-add":{
+			if(roleName!=null &&roleName.toUpperCase().equals("ADMIN")) {
+				filter.doFilter(servletRequest, response);
+			}
+			else {
+				servletResponse.sendRedirect(contextPath+"/");
+			}
+			break;
+		}
+		case "/role-edit":{
 			if(roleName!=null &&roleName.toUpperCase().equals("ADMIN")) {
 				filter.doFilter(servletRequest, response);
 			}

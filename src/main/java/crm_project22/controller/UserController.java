@@ -12,7 +12,7 @@ import crm_project22.entity.NguoiDung;
 import crm_project22.service.NguoiDungService;
 import crm_project22.service.RoleService;
 
-@WebServlet(name = "userController", urlPatterns = {"/user","/user-add"})
+@WebServlet(name = "userController", urlPatterns = {"/user","/user-add","/user-edit"})
 public class UserController extends HttpServlet{
 	
 	private NguoiDungService nguoiDungService = new NguoiDungService();
@@ -28,7 +28,20 @@ public class UserController extends HttpServlet{
 		}
 		case "/user-add":{
 			req.setAttribute("listRole", roleService.getAllLoaiThanhVien());
-			
+			req.setAttribute("btnAction", "Add User");
+			req.setAttribute("isShow", "none");
+			req.setAttribute("action", "/user-add");
+			req.getRequestDispatcher("user-add.jsp").forward(req, resp);
+			break;
+		}
+		case "/user-edit":{
+			req.setAttribute("btnAction", "Update User");
+			req.setAttribute("isShow", "block");
+			req.setAttribute("action", "/user-edit");
+			Integer id = Integer.parseInt(req.getParameter("id"));
+			NguoiDung nd = nguoiDungService.findById(id);
+			req.setAttribute("nd", nd);
+			req.setAttribute("listRole", roleService.getAllLoaiThanhVien());
 			req.getRequestDispatcher("user-add.jsp").forward(req, resp);
 			break;
 		}
@@ -54,6 +67,18 @@ public class UserController extends HttpServlet{
 			System.out.println(isSuccess);
 			resp.sendRedirect("/crm_project22/user");
 			break;
+		}
+		case "/user-edit":{
+			Integer id = Integer.parseInt(req.getParameter("id"));
+			String email = req.getParameter("email");
+			String matkhau = req.getParameter("matkhau");
+			String fullname = req.getParameter("fullname");
+			String diachi = req.getParameter("mota");
+			String soDienThoai = req.getParameter("mota");
+			Integer id_loaiThanhVien = Integer.parseInt(req.getParameter("id_loaiThanhVien"));
+			boolean isSuccess = nguoiDungService.update(id,email,matkhau,fullname,diachi,soDienThoai,id_loaiThanhVien);
+			req.setAttribute("isSuccess", isSuccess);
+			resp.sendRedirect("/crm_project22/user");
 		}
 		}
 	}

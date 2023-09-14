@@ -21,7 +21,10 @@ public class RoleController extends HttpServlet{
 		String path = req.getServletPath();
 		switch (path) {
 		case "/role-add": {
+
+			req.setAttribute("btnAction", "Add Role");
 			req.setAttribute("action", "/role-add");
+			req.setAttribute("isShow", "none");
 			req.getRequestDispatcher("role-add.jsp").forward(req, resp);
 			break;
 		}
@@ -31,6 +34,8 @@ public class RoleController extends HttpServlet{
 			break;
 		}
 		case "/role-edit":{
+			req.setAttribute("btnAction", "Update Role");
+			req.setAttribute("isShow", "block");
 			Integer id = Integer.parseInt(req.getParameter("id"));
 			LoaiThanhVien ltv = roleService.findById(id);
 			req.setAttribute("ltv", ltv);
@@ -67,8 +72,8 @@ public class RoleController extends HttpServlet{
 			System.out.println(id);
 			String ten = req.getParameter("ten");
 			String mota = req.getParameter("mota");
-//			boolean isSuccess = roleService.update(id, ten, mota);
-//			req.setAttribute("isSuccess", isSuccess);
+			boolean isSuccess = roleService.update(id, ten, mota);
+			req.setAttribute("isSuccess", isSuccess);
 			
 
 			resp.sendRedirect("/crm_project22/role");			

@@ -150,4 +150,87 @@ public class NguoiDungRepository {
 		}
 		return count;
 	}
+	
+	public int update(int id, String email, String matKhau, String fullname, String diaChi, String soDienThoai, int id_loaiThanhVien) {
+		int count = 0;
+		String query = "UPDATE NguoiDung nd\r\n"
+				+ "SET nd.email = ?, nd.matkhau =?, nd.fullname =?, nd.diachi =?, nd.soDienThoai =?, nd.id_loaithanhvien =?\r\n"
+				+ "WHERE nd.id = ?";
+		Connection con = MysqlConfig.getConnecttion();
+		try {
+			PreparedStatement statement = con.prepareStatement(query);
+			statement.setString(1, email);
+			statement.setString(2, matKhau);
+			statement.setString(3, fullname);
+			statement.setString(4, diaChi);
+			statement.setString(5, soDienThoai);
+			statement.setInt(6, id_loaiThanhVien);
+			statement.setInt(7, id);
+			
+			count = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return count;
+	}
+	
+	public NguoiDung findById(int id) {
+		NguoiDung nd = new NguoiDung();
+		String query = "select * from NguoiDung nd join LoaiThanhVien ltv on ltv.id=nd.id_loaithanhvien where nd.id = ?";
+		Connection con = MysqlConfig.getConnecttion();
+		try {
+			PreparedStatement statement = con.prepareStatement(query);
+			statement.setInt(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next()) {
+				nd.setId(resultSet.getInt("nd.id"));
+				nd.setEmail(resultSet.getString("email"));
+				nd.setMatKhau(resultSet.getString("matkhau"));
+				nd.setFullname(resultSet.getString("fullname"));
+				nd.setDiaChi(resultSet.getString("diachi"));
+				nd.setSoDienThoai(resultSet.getString("soDienThoai"));
+				LoaiThanhVien loaiThanhVien = new LoaiThanhVien();
+				loaiThanhVien.setTen(resultSet.getString("ten"));
+				loaiThanhVien.setId(resultSet.getInt("ltv.id"));
+				nd.setLoaiThanhVien(loaiThanhVien);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return nd;
+	}
+
+	public List<NguoiDung> getAllLead(){
+		List<NguoiDung> list = new ArrayList<>();
+		String query = "select * from NguoiDung nd join LoaiThanhVien ltv on ltv.id=nd.id_loaithanhvien where ltv.ten='LEAD'";
+		Connection con = MysqlConfig.getConnecttion();
+		try {
+			PreparedStatement statement = con.prepareStatement(query);
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				NguoiDung nd = new NguoiDung();
+				nd.setId(result.getInt("nd.id"));
+				nd.setFullname(result.getString("fullname"));
+				LoaiThanhVien loaiThanhVien = new LoaiThanhVien();
+				loaiThanhVien.setTen(result.getString("ten"));
+				nd.setLoaiThanhVien(loaiThanhVien);
+				list.add(nd);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Looic đóng kết nối " + e.getLocalizedMessage());
+			}
+		}
+		return list;
+	}
 }

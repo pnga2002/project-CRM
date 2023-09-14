@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,12 +17,14 @@
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Menu CSS -->
     <link href="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <!-- animation CSS -->
     <link href="css/animate.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/style.css" rel="stylesheet">
     <!-- color CSS -->
     <link href="css/colors/blue-dark.css" id="theme" rel="stylesheet">
+    <link rel="stylesheet" href="./css/custom.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -100,7 +103,7 @@
                                 aria-hidden="true"></i><span class="hide-menu">Quyền</span></a>
                     </li>
                     <li>
-                        <a href="groupwork.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="project" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Dự án</span></a>
                     </li>
                     <li>
@@ -124,82 +127,50 @@
             <div class="container-fluid">
                 <div class="row bg-title">
                     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-                        <h4 class="page-title">Thêm mới thành viên</h4>
+                        <h4 class="page-title">Danh sách dự án</h4>
                     </div>
+                    <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12 text-right">
+                        <a href="project-add" class="btn btn-sm btn-success">Thêm mới</a>
+                    </div>
+                    <!-- /.col-lg-12 -->
                 </div>
-                <!-- /.row -->
-                <!-- .row -->
+                <!-- /row -->
                 <div class="row">
-                    <div class="col-md-2 col-12"></div>
-                    <div class="col-md-8 col-xs-12">
+                    <div class="col-sm-12">
                         <div class="white-box">
-                            <form class="form-horizontal form-material" action="<c:url value='${action}'/>" method="post">
-                                <div class="form-group" style="display: ${isShow}">
-                                    <label class="col-md-12">ID</label>
-                                    <div class="col-md-12">
-                                        <input type="text" value='${nd.id }' name="id"
-                                            class="form-control form-control-line"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Full Name</label>
-                                    <div class="col-md-12">
-                                        <input type="text" value='${nd.fullname }' name="fullname" placeholder="Johnathan Doe"
-                                            class="form-control form-control-line"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="example-email" class="col-md-12">Email</label>
-                                    <div class="col-md-12">
-                                        <input type="email" value='${nd.email }' placeholder="johnathan@admin.com"
-                                            class="form-control form-control-line" name="email"
-                                            id="example-email"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Password</label>
-                                    <div class="col-md-12">
-                                        <input type="password" value='${nd.matKhau }' name="matkhau" value="password" class="form-control form-control-line">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Address</label>
-                                    <div class="col-md-12">
-                                        <input type="text" value='${nd.diaChi }' name="diachi" placeholder="Number address and street names"
-                                            class="form-control form-control-line"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-md-12">Phone No</label>
-                                    <div class="col-md-12">
-                                        <input type="text" value='${nd.soDienThoai }' name="sodienthoai" placeholder="123 456 7890"
-                                            class="form-control form-control-line"> </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-12">Select Role</label>
-                                    <div class="col-sm-12">
-                                        <select name="id_loaiThanhVien" class="form-control form-control-line">
-                                            <c:forEach var="item" items="${listRole}">
-                                            
-                                            	<c:if test="${nd.loaiThanhVien.id ==item.id }">
-                                            		<option value=${item.id } selected="selected">${item.ten}</option>
-                                            	</c:if>
-                                            	<c:if test="${nd.loaiThanhVien.id !=item.id }">
-                                            		<option value=${item.id }>${item.ten}</option>
-                                            	</c:if>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-success">${btnAction}</button>
-                                        <a href="user" class="btn btn-primary">Quay lại</a>
-                                    </div>
-                                </div>
-                            </form>
-                            <c:if test="${isSuccess == true}">
-                            	<h4>Thêm thành công</h4>
-                            </c:if>
+                            <div class="table-responsive">
+                                <table class="table" id="example">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên Dự Án</th>
+                                            <th>Ngày Bắt Đầu</th>
+                                            <th>Ngày Kết Thúc</th>
+                                            <th>Trạng Thái</th>
+                                            <th>Hành Động</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <c:forEach var="item" items="${listProject }">
+                                    	<tr >
+                                            <td>${item.id }</td>
+                                            <td>${item.tenduan }</td>
+                                            <td>${item.ngaybatdau}</td>
+                                            <td>${item.ngayketthuc }</td>
+                                            <td>${item.trangthai.ten }</td>
+                                            <td>
+                                                <a href="project-edit?id=${item.id }" class="btn btn-sm btn-primary">Sửa</a>
+                                                <a href="#" id-project=${item.id } class="btn btn-sm btn-danger btn-xoa">Xóa</a>
+                                                <a href="groupwork-details.html" class="btn btn-sm btn-info">Xem</a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-2 col-12"></div>
                 </div>
                 <!-- /.row -->
             </div>
@@ -217,10 +188,12 @@
     <script src="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <!--Wave Effects -->
     <script src="js/waves.js"></script>
     <!-- Custom Theme JavaScript -->
     <script src="js/custom.min.js"></script>
+   	<script type="text/javascript" src="js/project.js"></script>
 </body>
 
 </html>
