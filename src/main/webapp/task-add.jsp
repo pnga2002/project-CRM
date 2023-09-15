@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,19 +95,19 @@
                                 aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="user-table.html" class="waves-effect"><i class="fa fa-user fa-fw"
+                        <a href="user" class="waves-effect"><i class="fa fa-user fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Thành viên</span></a>
                     </li>
                     <li>
-                        <a href="role-table.html" class="waves-effect"><i class="fa fa-modx fa-fw"
+                        <a href="role" class="waves-effect"><i class="fa fa-modx fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Quyền</span></a>
                     </li>
                     <li>
-                        <a href="groupwork.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="project" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
                     </li>
                     <li>
-                        <a href="task.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="task" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
                     </li>
                     <li>
@@ -132,52 +136,93 @@
                     <div class="col-md-2 col-12"></div>
                     <div class="col-md-8 col-xs-12">
                         <div class="white-box">
-                            <form class="form-horizontal form-material">
+                            <form class="form-horizontal form-material" action="<c:url value='${action}'/>" method="post">
+                            	<div class="form-group" style="display: ${isShow}">
+                                    <label class="col-md-12">ID</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value="${cv.idCV }" name="idCV" placeholder="ID"
+                                            class="form-control form-control-line" >
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Dự án</label>
                                     <div class="col-md-12">
-                                        <select class="form-control form-control-line">
-                                            <option>Dự án CRM</option>
-                                            <option>Dự án Elearning</option>
-                                            <option>Dự án Rạp chiếu phim</option>
+                                        <select name="maduan" class="form-control form-control-line">
+                                            <c:forEach var="item" items="${listProject }">
+                                            	<c:if test="${cv.duan.id == item.id}">
+                                            		<option value='${item.id }' selected="selected">${item.tenduan}</option>
+                                            	</c:if>
+                                            	<c:if test="${cv.duan.id != item.id}">
+                                            		<option value='${item.id }' >${item.tenduan}</option>
+                                            	</c:if>
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Tên công việc</label>
                                     <div class="col-md-12">
-                                        <input type="text" placeholder="Tên công việc"
+                                        <input type="text" value='${cv.ten }' name="ten" placeholder="Tên công việc"
+                                            class="form-control form-control-line">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-12">Mô tả công việc</label>
+                                    <div class="col-md-12">
+                                        <input type="text" value='${cv.mota }' name="mota" placeholder="Mô tả công việc"
                                             class="form-control form-control-line">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Người thực hiện</label>
                                     <div class="col-md-12">
-                                        <select class="form-control form-control-line">
-                                            <option>Nguyễn Văn Tèo</option>
-                                            <option>Trần Thị Lan</option>
-                                            <option>Cao Ngọc Hiếu</option>
+                                        <select name="nguoithuchien" class="form-control form-control-line">
+                                            <c:forEach var="item" items="${listUser}">
+                                            	<c:if test="${cv.nguoidung.id==item.id }">
+                                            		<option value=${item.id } selected="selected">${item.fullname}</option>
+                                            	</c:if>
+                                            	<c:if test="${cv.nguoidung.id!=item.id }">
+                                            		<option value=${item.id } >${item.fullname}</option>
+                                            	</c:if>
+                                            		
+                                            </c:forEach>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Ngày bắt đầu</label>
                                     <div class="col-md-12">
-                                        <input type="text" placeholder="dd/MM/yyyy"
+                                        <input type="text" value="${cv.ngaybatdau }" name="ngaybd" placeholder="yyyy-MM-dd"
                                             class="form-control form-control-line"> 
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-12">Ngày kết thúc</label>
                                     <div class="col-md-12">
-                                        <input type="text" placeholder="dd/MM/yyyy"
+                                        <input type="text" value="${cv.ngayketthuc }" name="ngaykt" placeholder="yyyy-MM-dd"
                                             class="form-control form-control-line"> 
                                     </div>
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-md-12">Trạng thái</label>
+                                    <div class="col-md-12">
+                                        <select name='trangthai' class="form-control form-control-line">
+                                            <c:forEach var="item" items="${listStatus}">
+                                            	<c:if test="${cv.trangthai.id == item.id }">
+                                            		<option value=${item.id } selected="selected">${item.ten}</option>
+                                            	</c:if>
+                                            	<c:if test="${cv.trangthai.id != item.id }">
+                                            		<option value=${item.id } >${item.ten}</option>
+                                            	</c:if>
+                                            		
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-success">Lưu lại</button>
-                                        <a href="task.html" class="btn btn-primary">Quay lại</a>
+                                        <button type="submit" class="btn btn-success">${btnAction }</button>
+                                        <a href="task" class="btn btn-primary">Quay lại</a>
                                     </div>
                                 </div>
                             </form>
@@ -197,7 +242,6 @@
     <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- Menu Plugin JavaScript -->
     <script src="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
     <!--slimscroll JavaScript -->
     <script src="js/jquery.slimscroll.js"></script>
