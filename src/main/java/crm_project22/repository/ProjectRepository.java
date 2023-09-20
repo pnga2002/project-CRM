@@ -12,6 +12,7 @@ import crm_project22.config.MysqlConfig;
 import crm_project22.entity.DuAn;
 import crm_project22.entity.LoaiThanhVien;
 import crm_project22.entity.NguoiDung;
+import crm_project22.entity.Task;
 import crm_project22.entity.TrangThai;
 
 public class ProjectRepository {
@@ -148,5 +149,44 @@ public class ProjectRepository {
 			}
 		}
 		return count;
+	}
+	
+	public List<Task> getTaskNewInProjectByID(int id, int idtt){
+		List<Task> list = new ArrayList<>();
+		
+		String query = "SELECT * from CongViec cv\r\n"
+				+ "join DuAn da on da.id  = cv.maduan \r\n"
+				+ "join NguoiDung nd ON cv.manguoidung  = nd.id \r\n"
+				+ "where da.id=? and cv.matrangthai  = ?";
+		Connection con = MysqlConfig.getConnecttion();
+		try {
+			PreparedStatement statement = con.prepareStatement(query);
+			statement.setInt(1, id);
+			statement.setInt(2, idtt);
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				Task t = new Task();
+				t.setIdCV(result.getInt("cv.idCV"));
+				t.setMota(result.getString("cv.mota"));
+				t.setNgaybatdau(result.getDate("cv.ngaybatdau"));
+				t.setNgayketthuc(result.getDate("cv.ngayketthuc"));
+				t.setTen(result.getString("cv.ten"));
+				DuAn da = new DuAn();
+				da.setId(result.getInt("da.id"));
+				da.setTenduan(result.getString("da.tenduan"));
+				t.setDuan(da);
+				NguoiDung nd = new NguoiDung();
+				nd.setId(result.getInt("nd.id"));
+				nd.setFullname(result.getString("fullname"));
+				t.setNguoidung(nd);
+				list.add(t);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return list;
+		
 	}
 }

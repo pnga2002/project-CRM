@@ -3,6 +3,7 @@ package crm_project22.service;
 import java.util.List;
 
 import crm_project22.entity.NguoiDung;
+import crm_project22.entity.Task;
 import crm_project22.repository.NguoiDungRepository;
 
 public class NguoiDungService {
@@ -28,5 +29,8 @@ public class NguoiDungService {
 	public boolean update(int id, String email, String matKhau, String fullname, String diaChi, String soDienThoai, int id_loaiThanhVien) {
 		int count = nguoiDungRepository.update(id, email, matKhau, fullname, diaChi, soDienThoai, id_loaiThanhVien);
 		return count > 0;
+	}
+	public List<Task> getTaskByUserId(int id, int idtt){
+		return nguoiDungRepository.getTaskByUserId(id, idtt);
 	}
 }

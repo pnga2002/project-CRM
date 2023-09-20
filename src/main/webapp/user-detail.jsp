@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -89,19 +93,19 @@
                                 aria-hidden="true"></i><span class="hide-menu">Dashboard</span></a>
                     </li>
                     <li>
-                        <a href="user-table.html" class="waves-effect"><i class="fa fa-user fa-fw"
+                        <a href="user" class="waves-effect"><i class="fa fa-user fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Thành viên</span></a>
                     </li>
                     <li>
-                        <a href="role-table.html" class="waves-effect"><i class="fa fa-modx fa-fw"
+                        <a href="role" class="waves-effect"><i class="fa fa-modx fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Quyền</span></a>
                     </li>
                     <li>
-                        <a href="groupwork.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="project" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Dự án</span></a>
                     </li>
                     <li>
-                        <a href="task.html" class="waves-effect"><i class="fa fa-table fa-fw"
+                        <a href="task" class="waves-effect"><i class="fa fa-table fa-fw"
                                 aria-hidden="true"></i><span class="hide-menu">Công việc</span></a>
                     </li>
                     <li>
@@ -134,8 +138,8 @@
                                     <div class="user-content">
                                         <a href="javascript:void(0)"><img src="plugins/images/users/genu.jpg"
                                                 class="thumb-lg img-circle" alt="img"></a>
-                                        <h4 class="text-white">Nguyễn Văn Tèo</h4>
-                                        <h5 class="text-white">info.teo@gmail.com</h5>
+                                        <h4 class="text-white">${nd.fullname }</h4>
+                                        <h5 class="text-white">${nd.email }</h5>
                                     </div>
                                 </div>
                             </div>
@@ -150,7 +154,7 @@
 			<div class="white-box">
 				<div class="col-in row">
 					<div class="col-xs-12">
-						<h3 class="counter text-right m-t-15 text-danger">20%</h3>
+						<h3 class="counter text-right m-t-15 text-danger">${percentNew }%</h3>
                     </div>
                     <div class="col-xs-12">
 						<i data-icon="E" class="linea-icon linea-basic"></i>
@@ -172,7 +176,7 @@
 			<div class="white-box">
 				<div class="col-in row">
 					<div class="col-xs-12">
-						<h3 class="counter text-right m-t-15 text-megna">50%</h3>
+						<h3 class="counter text-right m-t-15 text-megna">${percentDoing }%</h3>
                     </div>
                     <div class="col-xs-12">
 						<i class="linea-icon linea-basic" data-icon="&#xe01b;"></i>
@@ -194,7 +198,7 @@
 			<div class="white-box">
 				<div class="col-in row">
 					<div class="col-xs-12">
-						<h3 class="counter text-right m-t-15 text-primary">30%</h3>
+						<h3 class="counter text-right m-t-15 text-primary">${percentDone }%</h3>
                     </div>
                     <div class="col-xs-12">
 						<i class="linea-icon linea-basic" data-icon="&#xe00b;"></i>
@@ -224,22 +228,19 @@
                         <div class="white-box">
                             <h3 class="box-title">Chưa thực hiện</h3>
                             <div class="message-center">
-                                <a href="#">
+                            	<c:forEach var="item" items="${listNew }">
+									<a href="#">
                                     <div class="mail-contnet">
-                                        <h5>Phân tích hệ thống</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
+                                        <h5>${item.duan.tenduan }</h5>
+                                        <span class="mail-desc">${item.duan.mota }</span>
+                                        <span class="time">Bắt đầu: ${item.ngaybatdau }</span>
+                                        <span class="time">Kết thúc: ${item.ngayketthuc }</span>
                                     </div>
                                 </a> 
-                                <a href="#">
-                                    <div class="mail-contnet">
-                                        <h5>Thiết kế database</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
-                                    </div>
-                                </a>
+
+								</c:forEach>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -247,22 +248,17 @@
                         <div class="white-box">
                             <h3 class="box-title">Đang thực hiện</h3>
                             <div class="message-center">
-                                <a href="#">
+                                <c:forEach var="item" items="${listDoing }">
+									<a href="#">
                                     <div class="mail-contnet">
-                                        <h5>Phân tích hệ thống</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
+                                        <h5>${item.duan.tenduan }</h5>
+                                        <span class="mail-desc">${item.duan.mota }</span>
+                                        <span class="time">Bắt đầu: ${item.ngaybatdau }</span>
+                                        <span class="time">Kết thúc: ${item.ngayketthuc }</span>
                                     </div>
                                 </a> 
-                                <a href="#">
-                                    <div class="mail-contnet">
-                                        <h5>Thiết kế database</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
-                                    </div>
-                                </a>
+
+								</c:forEach>
                             </div>
                         </div>
                     </div>
@@ -270,22 +266,17 @@
                         <div class="white-box">
                             <h3 class="box-title">Đã hoàn thành</h3>
                             <div class="message-center">
-                                <a href="#">
+                                <c:forEach var="item" items="${listDone }">
+									<a href="#">
                                     <div class="mail-contnet">
-                                        <h5>Phân tích hệ thống</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
+                                        <h5>${item.duan.tenduan }</h5>
+                                        <span class="mail-desc">${item.duan.mota }</span>
+                                        <span class="time">Bắt đầu: ${item.ngaybatdau }</span>
+                                        <span class="time">Kết thúc: ${item.ngayketthuc }</span>
                                     </div>
                                 </a> 
-                                <a href="#">
-                                    <div class="mail-contnet">
-                                        <h5>Thiết kế database</h5>
-                                        <span class="mail-desc"></span>
-                                        <span class="time">Bắt đầu: 05/07/2020</span>
-                                        <span class="time">Kết thúc: 17/07/2020</span>
-                                    </div>
-                                </a>
+
+								</c:forEach>
                             </div>
                         </div>
                     </div>

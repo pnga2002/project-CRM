@@ -163,7 +163,7 @@
                                             <td>
                                                 <a href="user-edit?id=${item.id }" class="btn btn-sm btn-primary">Sửa</a>
                                                 <a href="#"  id-user=${item.id } class="btn btn-sm btn-danger btn-xoa">Xóa</a>
-                                                <a href="user-details.html" class="btn btn-sm btn-info">Xem</a>
+                                                <a href="user-detail?id=${item.id }" class="btn btn-sm btn-info">Xem</a>
                                             </td>
                                         </tr>
                                     	</c:forEach>

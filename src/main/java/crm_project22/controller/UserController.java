@@ -1,18 +1,21 @@
 package crm_project22.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import crm_project22.entity.NguoiDung;
+import crm_project22.entity.Task;
 import crm_project22.service.NguoiDungService;
 import crm_project22.service.RoleService;
 
-@WebServlet(name = "userController", urlPatterns = {"/user","/user-add","/user-edit"})
+@WebServlet(name = "userController", urlPatterns = {"/user","/user-add","/user-edit", "/user-detail","/profile"})
 public class UserController extends HttpServlet{
 	
 	private NguoiDungService nguoiDungService = new NguoiDungService();
@@ -43,6 +46,35 @@ public class UserController extends HttpServlet{
 			req.setAttribute("nd", nd);
 			req.setAttribute("listRole", roleService.getAllLoaiThanhVien());
 			req.getRequestDispatcher("user-add.jsp").forward(req, resp);
+			break;
+		}
+		case "/user-detail":{
+			Integer id = Integer.parseInt(req.getParameter("id"));
+			List<Task> listNew = nguoiDungService.getTaskByUserId(id, 8);
+			List<Task> listDoing = nguoiDungService.getTaskByUserId(id, 9);
+			List<Task> listDone = nguoiDungService.getTaskByUserId(id, 10);
+			req.setAttribute("listNew", listNew);
+			req.setAttribute("listDoing", listDoing);
+			req.setAttribute("listDone", listDone);
+			int countNew = listNew.size();
+			int countDoing = listDoing.size();
+			int countDone = listDone.size();
+			int total = countDoing + countDone + countNew;
+			req.setAttribute("percentNew", (countNew*100/total));
+			req.setAttribute("percentDoing", (countDoing*100/total));
+			req.setAttribute("percentDone", (countDone*100/total));
+			NguoiDung nd = nguoiDungService.findById(id);
+			req.setAttribute("nd", nd);
+			req.getRequestDispatcher("user-detail.jsp").forward(req, resp);
+			
+			break;
+		}
+		case "/profile":{
+
+			HttpSession session = req.getSession();
+			String userID = (String) session.getAttribute("roleName");
+			System.out.println(userID);
+			req.getRequestDispatcher("profile.jsp").forward(req, resp);
 			break;
 		}
 		}

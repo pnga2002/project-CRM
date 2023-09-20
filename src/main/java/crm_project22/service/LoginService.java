@@ -23,7 +23,7 @@ public class LoginService {
 		if(listNguoiDung.size()>0) {
 			HttpSession session = request.getSession();
 			session.setAttribute("roleName", listNguoiDung.get(0).getLoaiThanhVien().getTen());
-			
+			session.setAttribute("userID", listNguoiDung.get(0).getId());
 		}
 	
 		return listNguoiDung.size()>0;

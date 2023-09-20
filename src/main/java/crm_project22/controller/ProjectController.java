@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,10 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import crm_project22.entity.DuAn;
+import crm_project22.entity.Task;
 import crm_project22.service.NguoiDungService;
 import crm_project22.service.ProjectService;
 
-@WebServlet(name = "projectController", urlPatterns = { "/project", "/project-add", "/project-edit" })
+@WebServlet(name = "projectController", urlPatterns = { "/project", "/project-add", "/project-edit", "/project-detail" })
 public class ProjectController extends HttpServlet {
 
 	private ProjectService projectService = new ProjectService();
@@ -47,6 +49,25 @@ public class ProjectController extends HttpServlet {
 			req.setAttribute("da", da);
 			req.setAttribute("listLead", nguoiDungService.getAllLead());
 			req.getRequestDispatcher("project-add.jsp").forward(req, resp);
+			break;
+		}
+		case "/project-detail": {
+			
+			Integer id = Integer.parseInt(req.getParameter("id"));
+			List<Task> listNew = projectService.getTaskNewInProjectByID(id, 8);
+			List<Task> listDoing = projectService.getTaskNewInProjectByID(id, 9);
+			List<Task> listDone = projectService.getTaskNewInProjectByID(id, 10);
+			req.setAttribute("listNew", listNew);
+			req.setAttribute("listDoing", listDoing);
+			req.setAttribute("listDone", listDone);
+			int countNew = listNew.size();
+			int countDoing = listDoing.size();
+			int countDone = listDone.size();
+			int total = countDoing + countDone + countNew;
+			req.setAttribute("percentNew", (countNew*100/total));
+			req.setAttribute("percentDoing", (countDoing*100/total));
+			req.setAttribute("percentDone", (countDone*100/total));
+			req.getRequestDispatcher("project-detail.jsp").forward(req, resp);
 			break;
 		}
 		}
@@ -87,7 +108,6 @@ public class ProjectController extends HttpServlet {
 				String mota = req.getParameter("mota");
 				Date start = outputFormat.parse(req.getParameter("ngaybd"));
 				Date end = outputFormat.parse(req.getParameter("ngaykt"));
-				System.out.println(start);
 				String formattedStartDate = outputFormat.format(start);
 				String formattedEndDate = outputFormat.format(end);
 				java.sql.Date sql_start_date = java.sql.Date.valueOf(formattedStartDate);

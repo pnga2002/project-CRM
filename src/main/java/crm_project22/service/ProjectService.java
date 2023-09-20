@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import crm_project22.entity.DuAn;
+import crm_project22.entity.Task;
 import crm_project22.repository.ProjectRepository;
 
 public class ProjectService {
@@ -26,5 +27,8 @@ public class ProjectService {
 	public boolean deleteById(int id) {
 		int count = projectRepositoty.deleteById(id);
 		return count > 0;
+	}
+	public List<Task> getTaskNewInProjectByID(int id, int idtt){
+		return projectRepositoty.getTaskNewInProjectByID(id, idtt);
 	}
 }

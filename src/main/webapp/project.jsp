@@ -161,7 +161,7 @@
                                             <td>
                                                 <a href="project-edit?id=${item.id }" class="btn btn-sm btn-primary">Sửa</a>
                                                 <a href="#" id-project=${item.id } class="btn btn-sm btn-danger btn-xoa">Xóa</a>
-                                                <a href="groupwork-details.html" class="btn btn-sm btn-info">Xem</a>
+                                                <a href="project-detail?id=${item.id }" class="btn btn-sm btn-info">Xem</a>
                                             </td>
                                         </tr>
                                     </c:forEach>
