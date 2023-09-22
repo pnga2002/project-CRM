@@ -33,4 +33,7 @@ public class NguoiDungService {
 	public List<Task> getTaskByUserId(int id, int idtt){
 		return nguoiDungRepository.getTaskByUserId(id, idtt);
 	}
+	public List<Task> getAllTaskByUserId(int id){
+		return nguoiDungRepository.getAllTaskByUserId(id);
+	}
 }

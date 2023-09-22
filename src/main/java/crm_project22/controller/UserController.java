@@ -72,8 +72,26 @@ public class UserController extends HttpServlet{
 		case "/profile":{
 
 			HttpSession session = req.getSession();
-			String userID = (String) session.getAttribute("roleName");
+			Integer userID = (Integer) session.getAttribute("userID");
 			System.out.println(userID);
+			NguoiDung nd = nguoiDungService.findById(userID);
+			List<Task> listNew = nguoiDungService.getTaskByUserId(userID, 8);
+			List<Task> listDoing = nguoiDungService.getTaskByUserId(userID,9);
+			List<Task> listDone = nguoiDungService.getTaskByUserId(userID, 10);
+			
+			int countNew = listNew.size();
+			int countDoing = listDoing.size();
+			int countDone = listDone.size();
+			int total = countDoing + countDone + countNew;
+			
+			req.setAttribute("list", nguoiDungService.getAllTaskByUserId(userID));
+			
+			req.setAttribute("nd", nd);
+			
+			req.setAttribute("percentNew", (countNew*100/total));
+			req.setAttribute("percentDoing", (countDoing*100/total));
+			req.setAttribute("percentDone", (countDone*100/total));
+			
 			req.getRequestDispatcher("profile.jsp").forward(req, resp);
 			break;
 		}
